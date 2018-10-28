@@ -49,9 +49,7 @@ The basic principle of working of a PID controller is to satisfy a boundary valu
 
 ## Project Goal
 
-In this project, a PID controller was implemented to drive a car around circular track having sharp left and right turns. A good solution would help the car stay in the center portion of the lane and take smooth left and right turns without touching or running over the edges of the lane (considered as risky in case humans were travelling in such a car). Project goals were briefed in the video below:
-
-[![PID project goals](https://img.youtube.com/vi/EmjfKmmYXx0/0.jpg)](https://youtu.be/EmjfKmmYXx0?list=PLfAL4SSFqWqTN8sFDXntT43goHfRFQeYg)
+In this project, a PID controller was implemented to drive a car around circular track having sharp left and right turns. A good solution would help the car stay in the center portion of the lane and take smooth left and right turns without touching or running over the edges of the lane (considered as risky in case humans were travelling in such a car). 
 
 ## Project Instructions and Rubric
 
@@ -67,21 +65,13 @@ The final implementation consisted of following major steps:
   
   2. The major task in this implementation was to tune the Kp, Ki and Kd gain parameters. This was done using manual tuning in the beginning and followed by fine tuning by using Twiddle or [Gradient Descent](https://en.wikipedia.org/wiki/Gradient_descent). This process is listed in the following steps.
   
-  3. In the initial step, the I and D components were switched off and only the P component was used to drive the car. This was done by setting the Ki and Kd parameters to 0. The car was allowed to drive along the track. The value of Kp was tuned manually to help the car stay on the track for at least 20% of the total track length, as long as it doesn't cross the edge of the track. This is demonstrated in the video below:
-  
-  [![P controller demo](https://img.youtube.com/vi/xJW2wRSlseU/0.jpg)](https://youtu.be/xJW2wRSlseU?list=PLfAL4SSFqWqTN8sFDXntT43goHfRFQeYg)
-  
-  As expected, the car could only stay for around 20% on the track due to oscillations in the run. These oscillations were created due to overshoot phenomenon created by P component, best explained by Sebastian Thrun in [this](https://youtu.be/SZ5D2AbWr3s) video. These oscillations were prevented by introducing the D component as described in next step.
-  
-  4. In this step, a PD controller was used. The I component was still switched off by setting the value of Ki to zero. The value of Kp was as tuned from step 3 and the value of Kd was tuned manually to keep the car on track for most of the length of the track. This is demonstrated in the video below:
-  
-  [![PD controller demo](https://img.youtube.com/vi/Lv37GXwyWmQ/0.jpg)](https://youtu.be/Lv37GXwyWmQ?list=PLfAL4SSFqWqTN8sFDXntT43goHfRFQeYg)
+  3. In the initial step, the I and D components were switched off and only the P component was used to drive the car. This was done by setting the Ki and Kd parameters to 0. The car was allowed to drive along the track. The value of Kp was tuned manually to help the car stay on the track for at least 20% of the total track length, as long as it doesn't cross the edge of the track. 
+    
+  4. In this step, a PD controller was used. The I component was still switched off by setting the value of Ki to zero. The value of Kp was as tuned from step 3 and the value of Kd was tuned manually to keep the car on track for most of the length of the track. 
   
   As seen, the car was able to stay on the track and drive successfully for most of the portion. However, it was observed that the car wouldn't stay in the center of the lane and often drift to the edges. This resulted in very sharp turns which is certainly not desirable in case a human was sitting inside the car. As described in next step, introduction of I component solved this problem.
   
-  5. Due to some kind of systemic bias and uncertainty in the system, the car would often drift to the edges of the lane. This undesired behavior was corrected by introducing the I component. The value of Kp and Kd were as tuned from step 3 and step 4 respectively. The value of Ki was tuned manually to restrict the car drifting away from center of the lane. The final effect of use of PID controller is demonstrated in the video below:
-  
-  [![PID controller demo](https://img.youtube.com/vi/YQdqk51lA_8/0.jpg)](https://youtu.be/YQdqk51lA_8?list=PLfAL4SSFqWqTN8sFDXntT43goHfRFQeYg)
+  5. Due to some kind of systemic bias and uncertainty in the system, the car would often drift to the edges of the lane. This undesired behavior was corrected by introducing the I component. The value of Kp and Kd were as tuned from step 3 and step 4 respectively. The value of Ki was tuned manually to restrict the car drifting away from center of the lane. 
   
   6. Gain parameters were then fine-tuned by using vanilla [Gradient Descent](https://en.wikipedia.org/wiki/Gradient_descent) algorithm, also known as Twiddle. In this process, manual tuned values from step 3, 4 and 5 were taken as a starting point. Each of the gain parameters Kp, Ki and Kd were tuned one at a time. For e.g., Ki and Kd were kept constant during the fine tuning of Kp and the overall error in the system was minimized. To optimize the algorithm, the car was driven only for 500 time steps after which the simulator was reset to bring back the car in original starting position. Few results obtained while fine tuning are given below:
   
